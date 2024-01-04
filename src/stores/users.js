@@ -1,8 +1,13 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import {supabase} from '@/supabase'
+import {  useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('users', () => {
+
+// ROUTER
+  const router = useRouter()
+
 
 // STATE
 const user = ref(null)
@@ -166,8 +171,12 @@ const handleSignup = async (credentials) => {
 
 // --------LOGOUT -----------
 const handleLogout = async() => {
+  // sign out from supabase
 await supabase.auth.signOut()
+// set user to null
 user.value = null
+// redirect to home page
+router.push('/')
 }
 
 

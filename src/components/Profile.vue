@@ -1,8 +1,13 @@
 <template>
     <Container>
         <div class="profile-container">
+            <!--:key="$route.params.username"-->
+            <!-- this means key is watching any change in the userbar componente-->
+            <!--in this case is changing the url param to know what user is in-->
+            <!-- the component will re render with the correct info and logic-->
             <Userbar
-                username="willy"
+                :key="$route.params.username"
+                :username="user?.username"
                 :userInfo="{
                     posts: 4,
                     followers: 200,
@@ -28,6 +33,13 @@
 import Container from '@/components/Container.vue'
 import Userbar from '@/components/Userbar.vue'
 import ImageGallery from '@/components/ImageGallery.vue'
+import { useUserStore } from '@/stores/users'
+import { storeToRefs } from 'pinia'
+
+
+// STORE
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
 
 </script>

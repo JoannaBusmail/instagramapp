@@ -31,7 +31,10 @@
                         v-else
                         class="left-content"
                     >
-                        <AButton type="primary">Profile</AButton>
+                        <AButton
+                            type="primary"
+                            @click="goToUserProfile"
+                        >Profile</AButton>
                         <AButton
                             type="primary"
                             @click="handleLogoutBtn"
@@ -60,7 +63,8 @@ const { loadingUser, user } = storeToRefs(userStore)
 const router = useRouter()
 const searchUsername = ref('')
 
-
+// navigate to  user page
+// this will change url params with the correct username
 const onSearch = () =>
 {
     if (searchUsername.value) {
@@ -72,6 +76,11 @@ const onSearch = () =>
 const handleLogoutBtn = async () =>
 {
     await handleLogout()
+}
+
+const goToUserProfile = () =>
+{
+    router.push(`/profile/${user.value.username}`)
 }
 
 </script>
