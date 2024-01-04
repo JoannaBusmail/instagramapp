@@ -15,20 +15,28 @@
                     />
                 </div>
                 <div
-                    v-if="!isAuth"
-                    class="left-content"
+                    class="content"
+                    v-if="!loadingUser"
                 >
+                    <div
+                        v-if="!user"
+                        class="left-content"
+                    >
 
-                    <AuthModal :isLogin="false" />
-                    <AuthModal :isLogin="true" />
-                </div>
+                        <AuthModal :isLogin="false" />
+                        <AuthModal :isLogin="true" />
+                    </div>
 
-                <div
-                    v-else
-                    class="left-content"
-                >
-                    <AButton type="primary">Profile</AButton>
-                    <AButton type="primary">Logout</AButton>
+                    <div
+                        v-else
+                        class="left-content"
+                    >
+                        <AButton type="primary">Profile</AButton>
+                        <AButton
+                            type="primary"
+                            @click="handleLogoutBtn"
+                        >Logout</AButton>
+                    </div>
                 </div>
             </div>
         </Container>
@@ -39,10 +47,19 @@ import { RouterLink, useRouter } from 'vue-router'
 import Container from './Container.vue'
 import AuthModal from './AuthModal.vue'
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/users'
+import { storeToRefs } from 'pinia'
+
+
+// STORE
+const userStore = useUserStore()
+const { handleLogout } = userStore
+const { loadingUser, user } = storeToRefs(userStore)
+
 
 const router = useRouter()
 const searchUsername = ref('')
-const isAuth = ref(false)
+
 
 const onSearch = () =>
 {
@@ -52,6 +69,10 @@ const onSearch = () =>
     }
 }
 
+const handleLogoutBtn = async () =>
+{
+    await handleLogout()
+}
 
 </script>
 <style scoped>
@@ -98,6 +119,11 @@ const onSearch = () =>
 
 .left-content button {
     margin-right: 12px;
+}
+
+.content {
+    display: flex;
+    align-items: center;
 }
 </style>
   
