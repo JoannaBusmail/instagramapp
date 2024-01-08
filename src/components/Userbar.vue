@@ -1,8 +1,14 @@
 <template>
-    <div class="userbar-container">
+    <div
+        class="userbar-container"
+        v-if="user"
+    >
         <div class="top-content">
-            <ATypographyTitle :level="2">{{ username }}</ATypographyTitle>
-            <UploadPhotoModal v-if="user && usernameParam === user.username" />
+            <ATypographyTitle :level="2">{{ user?.username }}</ATypographyTitle>
+            <UploadPhotoModal
+                v-if="user && usernameParam === user.username"
+                :addNewPost="addNewPost"
+            />
         </div>
 
         <div class="bottom-content">
@@ -13,6 +19,15 @@
             <ATypographyTitle :level="5">{{ userInfo.following }} following
             </ATypographyTitle>
         </div>
+    </div>
+    <div
+        v-else
+        class="userbar-container"
+    >
+        <div class="top-content">
+            <ATypographyTitle :level="2">User not found</ATypographyTitle>
+        </div>
+
     </div>
 </template>
 
@@ -35,12 +50,16 @@ const route = useRoute()
 const { username: usernameParam } = route.params
 
 const props = defineProps({
-    username: {
-        type: String,
+    user: {
+        type: Object,
         required: true
     },
     userInfo: {
         type: Object,
+        required: true
+    },
+    addNewPost: {
+        type: Function,
         required: true
     }
 })

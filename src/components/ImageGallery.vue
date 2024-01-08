@@ -7,7 +7,7 @@
         <img
             v-for="post in posts"
             :key="post.id"
-            :src="post.image"
+            :src="`https://zhuhwuzspupuabhbbfhu.supabase.co/storage/v1/object/public/images/${post.url}`"
         />
     </div>
 </template>
@@ -20,6 +20,12 @@ const props = defineProps({
         required: true
     }
 })
+/*
+URL from supabase -->storage --> image--> get url
+we need the rest of the url to actually get the image
+as in uploadPhotoModal we only get the name of the image
+https://zhuhwuzspupuabhbbfhu.supabase.co/storage/v1/object/public/images/public/2.5788211864890952e+23
+*/
 
 </script>
 
