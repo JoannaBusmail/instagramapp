@@ -4,11 +4,25 @@
         v-if="user"
     >
         <div class="top-content">
-            <ATypographyTitle :level="2">{{ user?.username }}</ATypographyTitle>
-            <UploadPhotoModal
-                v-if="user && usernameParam === user.username"
-                :addNewPost="addNewPost"
-            />
+            <ATypographyTitle :level="2">{{ user?.username }}
+            </ATypographyTitle>
+            <div v-if="loggedInUser">
+                <UploadPhotoModal
+                    v-if="usernameParam === loggedInUser.username"
+                    :addNewPost="addNewPost"
+                />
+                <div v-else>
+                    <AButton
+                        v-if="!isFollowing"
+                        @click="followUser"
+                    >Follow</AButton>
+                    <AButton
+                        v-else
+                        @click="unFollowUser"
+                    >Following</AButton>
+                </div>
+
+            </div>
         </div>
 
         <div class="bottom-content">
@@ -36,11 +50,12 @@ import UploadPhotoModal from './UploadPhotoModal.vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/users'
 import { storeToRefs } from 'pinia'
+import { supabase } from '@/supabase'
 
 
 // STORE
 const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
+const { user: loggedInUser } = storeToRefs(userStore)
 
 // ROUTER
 const route = useRoute()
@@ -61,8 +76,50 @@ const props = defineProps({
     addNewPost: {
         type: Function,
         required: true
+    },
+    isFollowing: {
+        type: Boolean,
+        required: true
+    },
+    updateIsFollowing: {
+        type: Function,
+        required: true
     }
 })
+
+
+
+const followUser = async () =>
+{
+    // we need this prop to update the isFollowing state in Profile.vue
+    // so when we follow the button changes to Following
+    props.updateIsFollowing(true)
+    // insert into followers_following table
+    // the follower_id is the current user from the store
+    // the following_id is the user we are following, the user from the props, the user fetched in Profile.vue
+    await supabase
+        .from('followers_following')
+        .insert(
+            {
+                follower_id: loggedInUser.value.id,
+                following_id: props.user.id
+            }
+        )
+}
+
+const unFollowUser = async () =>
+{
+    // we need this prop to update the isFollowing state in Profile.vue
+    // so when we unfollow the button changes to Follow
+    props.updateIsFollowing(false)
+    // delete from followers_following table
+    await supabase
+        .from('followers_following')
+        .delete()
+        .eq('follower_id', loggedInUser.value.id)
+        .eq('following_id', props.user.id)
+
+}
 
 
 </script>

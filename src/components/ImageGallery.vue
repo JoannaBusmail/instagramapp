@@ -44,6 +44,7 @@ img {
     height: 300px;
     object-fit: cover;
     border-radius: 15px;
+    margin-bottom: 25px;
 
 }
 </style>

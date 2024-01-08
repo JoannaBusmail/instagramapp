@@ -1,5 +1,5 @@
 <template>
-    <Profile />
+    <Profile :key="$route.params.username" />
 </template>
 
 <script setup>

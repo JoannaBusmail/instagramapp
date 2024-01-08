@@ -80,7 +80,7 @@ const handleLogoutBtn = async () =>
 
 const goToUserProfile = () =>
 {
-    router.push(`/profile/${user.value.username}`)
+    router.push(`/profile/${user?.value.username}`)
 }
 
 </script>
@@ -92,13 +92,13 @@ const goToUserProfile = () =>
     width: 100%;
     padding: 0 2rem;
     height: 64px;
-    background-color: #24d29b;
+    background-color: #0a1027;
 
 }
 
 .logo {
     font-size: 20px;
-    color: #031928;
+    color: #f3f4f5;
     text-decoration: none;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
