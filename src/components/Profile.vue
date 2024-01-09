@@ -86,6 +86,7 @@ const userInfo = reactive({
 const addNewPost = (post) =>
 {
     posts.value.unshift(post)
+    //update the reactive object when creating new post
     userInfo.posts = posts.value.length
 }
 
