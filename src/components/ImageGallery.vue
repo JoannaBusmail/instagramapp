@@ -7,12 +7,13 @@
         <img
             v-for="post in posts"
             :key="post.id"
-            :src="`https://zhuhwuzspupuabhbbfhu.supabase.co/storage/v1/object/public/images/${post.url}`"
+            :src="`${VITE_BASE_PHOTO_URL}${post.url}`"
         />
     </div>
 </template>
 
 <script setup>
+const { VITE_BASE_PHOTO_URL } = import.meta.env
 
 const props = defineProps({
     posts: {
@@ -20,12 +21,7 @@ const props = defineProps({
         required: true
     }
 })
-/*
-URL from supabase -->storage --> image--> get url
-we need the rest of the url to actually get the image
-as in uploadPhotoModal we only get the name of the image
-https://zhuhwuzspupuabhbbfhu.supabase.co/storage/v1/object/public/images/public/2.5788211864890952e+23
-*/
+
 
 </script>
 

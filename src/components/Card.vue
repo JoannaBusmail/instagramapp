@@ -7,7 +7,7 @@
         <template #cover>
             <img
                 alt="example"
-                :src="`https://zhuhwuzspupuabhbbfhu.supabase.co/storage/v1/object/public/images/${post.url}`"
+                :src="`${VITE_BASE_PHOTO_URL}${post.url}`"
                 style="height: 300px; object-fit: cover"
             />
         </template>
@@ -19,9 +19,9 @@
 
 <script setup>
 
+const { VITE_BASE_PHOTO_URL } = import.meta.env
 
-// need the whole url to get the images - got from supabase storage
-//https://zhuhwuzspupuabhbbfhu.supabase.co/storage/v1/object/public/images/public/1.2676911411710013e+23
+
 
 const props = defineProps({
     post: Object
